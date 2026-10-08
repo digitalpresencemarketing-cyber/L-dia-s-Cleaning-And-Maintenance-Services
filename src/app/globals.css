@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/*
+  Lidia's Cleaner Service — paleta da marca
+  · Azul da logomarca (casa / onda)   → blue, blue-dark, navy
+  · Rosa da logomarca ("Lidia's")     → rose
+  · Dourado (destaque pedido no briefing) → gold
+  Os tokens "pink" do template foram mantidos (usados pelo painel admin) e
+  agora apontam para o dourado, que é a cor de destaque deste site.
+*/
+@theme {
+  --color-pink: #C9A45C;
+  --color-pink-dark: #A07A2E;
+  --color-pink-light: #FBF7EE;
+  --color-pink-muted: #EFE3C6;
+  --color-blue: #1E63D6;
+  --color-blue-dark: #123E94;
+  --color-blue-light: #EEF4FD;
+  --color-navy: #0E1F3D;
+  --color-gray-soft: #F8F6F1;
+
+  --color-gold: #C9A45C;
+  --color-gold-dark: #A07A2E;
+  --color-gold-deep: #7E5F22;
+  --color-gold-light: #FBF7EE;
+  --color-gold-muted: #EFE3C6;
+  --color-rose: #D85BBE;
+  --color-ivory: #FBF9F4;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-navy font-sans antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  @media (max-width: 1023px) {
+    body {
+      padding-bottom: 76px;
+    }
+  }
+
+  h1, h2 {
+    @apply font-serif font-semibold tracking-tight;
+  }
+
+  h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-gold-muted text-navy;
+  }
+}
+
+@layer utilities {
+  /* Palavra de destaque nos títulos: serifada itálica em dourado */
+  .text-gradient {
+    @apply italic text-gold-dark;
+  }
+
+  .text-gold-shine {
+    @apply bg-gradient-to-r from-gold-dark via-gold to-gold-dark bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-gold hover:bg-navy text-navy hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(160,122,46,0.6)] hover:shadow-[0_10px_30px_-10px_rgba(14,31,61,0.6)] hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 bg-navy hover:bg-blue-dark text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-navy/20 text-navy hover:border-gold hover:text-gold-deep font-semibold px-7 py-3.5 rounded-full transition-all duration-300 bg-white/60 backdrop-blur-sm;
+  }
+
+  .btn-blue {
+    @apply inline-flex items-center justify-center gap-2 bg-blue hover:bg-blue-dark text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5;
+  }
+
+  /* Rótulo "eyebrow" acima dos títulos de seção */
+  .section-badge {
+    @apply inline-flex items-center gap-3 text-gold-deep text-xs font-semibold uppercase tracking-[0.25em];
+  }
+
+  .section-badge::before,
+  .section-badge::after {
+    content: "";
+    @apply block w-8 h-px bg-gold;
+  }
+
+  .section-title {
+    @apply text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.08] text-navy;
+  }
+
+  .card-hover {
+    @apply hover:shadow-[0_30px_60px_-30px_rgba(14,31,61,0.35)] hover:-translate-y-1 transition-all duration-500;
+  }
+
+  .gold-rule {
+    @apply h-px bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}

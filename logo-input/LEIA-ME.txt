@@ -1,0 +1,3 @@
+Coloque aqui o arquivo de logo do cliente quando ele enviar. Depois, peça para o Claude processar — ele remove o fundo e configura a logo automaticamente.
+
+logo-original.png = logo enviada pela cliente (fundo já removido e salvo em public/logo.png).
