@@ -57,7 +57,7 @@ export const siteConfig = {
     { image: "/images/services/regular-cleaning.webp",      imagePosition: "30% center",   price: "" }, // Regular Cleaning — aspirando a sala
     { image: "/images/services/deep-cleaning-kitchen.webp", imagePosition: "center",       price: "" }, // Deep Cleaning — limpando a bancada
     { image: "/images/services/move-in-move-out.webp",      imagePosition: "25% center",   price: "" }, // Move In / Move Out — profissional chegando com o kit
-    { image: "/images/services/post-construction-kitchen.webp", imagePosition: "center",    price: "" }, // Post Construction — cozinha nova impecável
+    { image: "/images/services/post-construction.webp",     imagePosition: "center",       price: "" }, // Post Construction — varrendo entulho de obra
     { image: "/images/services/commercial-restroom.webp",   imagePosition: "center",       price: "" }, // Commercial / Office — banheiro higienizado
     { image: "/images/services/airbnb-bedroom.webp",        imagePosition: "center",       price: "" }, // Airbnb & Vacation Rental — arrumando a cama
     { image: "/images/services/bathroom-detailing.webp",    imagePosition: "65% center",   price: "" }, // Windows & Detailing — espelho/vidro
