@@ -54,14 +54,14 @@ export const siteConfig = {
   //   price: "" → a cliente optou por NÃO exibir preços no site
   // ---------------------------------------------------------------------------
   services: [
-    { image: "https://images.unsplash.com/photo-1686178827149-6d55c72d81df?w=800&q=80", price: "" }, // Regular Cleaning
-    { image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",    price: "" }, // Deep Cleaning (cozinha)
-    { image: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=800&q=80", price: "" }, // Move In / Move Out
-    { image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80", price: "" }, // Post Construction
-    { image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80", price: "" }, // Commercial / Office
-    { image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=80", price: "" }, // Airbnb & Vacation Rental (quarto)
-    { image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=800&q=80", price: "" }, // Windows & Detailing
-    { image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80", price: "" }, // Organization
+    { image: "/images/services/regular-cleaning.webp",      imagePosition: "30% center",   price: "" }, // Regular Cleaning — aspirando a sala
+    { image: "/images/services/deep-cleaning-kitchen.webp", imagePosition: "center",       price: "" }, // Deep Cleaning — limpando a bancada
+    { image: "/images/services/move-in-move-out.webp",      imagePosition: "25% center",   price: "" }, // Move In / Move Out — profissional chegando com o kit
+    { image: "/images/services/post-construction-kitchen.webp", imagePosition: "center",    price: "" }, // Post Construction — cozinha nova impecável
+    { image: "/images/services/commercial-restroom.webp",   imagePosition: "center",       price: "" }, // Commercial / Office — banheiro higienizado
+    { image: "/images/services/airbnb-bedroom.webp",        imagePosition: "center",       price: "" }, // Airbnb & Vacation Rental — arrumando a cama
+    { image: "/images/services/bathroom-detailing.webp",    imagePosition: "65% center",   price: "" }, // Windows & Detailing — espelho/vidro
+    { image: "/images/services/organization-living-room.webp", imagePosition: "center",    price: "" }, // Organization — estante e sala organizadas
   ],
 
   // ---------------------------------------------------------------------------
