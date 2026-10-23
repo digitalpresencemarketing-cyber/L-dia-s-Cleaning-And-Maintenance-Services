@@ -61,7 +61,7 @@ export const siteConfig = {
     { image: "/images/services/deep-cleaning-kitchen.webp", imagePosition: "center",       price: "" }, // Deep Cleaning — limpando a bancada
     { image: "/images/services/move-in-move-out.webp",      imagePosition: "25% center",   price: "" }, // Move In / Move Out — profissional chegando com o kit
     { image: "/images/services/post-construction.webp",     imagePosition: "center",       price: "" }, // Post Construction — varrendo entulho de obra
-    { image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&q=80", imagePosition: "center", price: "" }, // Commercial / Office — escritório moderno
+    { image: "/images/services/commercial-office.webp",     imagePosition: "35% center",   price: "" }, // Commercial / Office — equipe limpando escritório
     { image: "/images/services/airbnb-bedroom.webp",        imagePosition: "center",       price: "" }, // Airbnb & Vacation Rental — arrumando a cama
     { image: "/images/services/bathroom-detailing.webp",    imagePosition: "65% center",   price: "" }, // Windows & Detailing — espelho/vidro
     { image: "/images/services/organization-living-room.webp", imagePosition: "center",    price: "" }, // Organization — estante e sala organizadas
