@@ -37,9 +37,6 @@ export const siteConfig = {
   social: {
     instagram: "https://www.instagram.com/lidias_cleaning_service",
     facebook: "https://www.facebook.com/share/14vmFDbtT6k/",
-    // Link do perfil no Google para deixar avaliação (ex: https://g.page/r/XXXX/review).
-    // Enquanto estiver vazio, o botão "Review us on Google" não aparece.
-    googleReviews: "",
   },
 
   // ---------------------------------------------------------------------------
@@ -95,7 +92,8 @@ export const siteConfig = {
   ],
 
   // ---------------------------------------------------------------------------
-  // DEPOIMENTOS — avaliações reais enviadas pela cliente
+  // DEPOIMENTOS — avaliações reais enviadas pela cliente.
+  //   Novas avaliações escritas no site entram aqui depois de aprovadas no /admin.
   // ---------------------------------------------------------------------------
   reviews: [
     { name: "Sharon G.",  location: "Monthly client · Greater Boston", rating: 5, date: "August 2026",  text: "Lidia has been cleaning my house once a month for a few years. She does a wonderful job cleaning and efficient with time. She reaches out to schedule monthly and arrives on time. Great communication! Also wonderful with my dog who is home during the cleanings. She is respectful and trustworthy.", avatar: "SG" },
@@ -152,11 +150,11 @@ export type Review      = (typeof siteConfig.reviews)[number];
 export type SiteConfig = {
   business:     { name: string; logo: string; logoAlt: string; tagline: string };
   contact:      { phone: string; phoneRaw: string; whatsapp: string; email: string; address: string; hours: string; hours2: string };
-  social:       { instagram: string; facebook: string; googleReviews?: string };
+  social:       { instagram: string; facebook: string };
   hero:         { backgroundImage: string; imagePosition?: string };
   services:     { image: string; price: string; imagePosition?: string }[];
   serviceAreas: { name: string; state: string; image: string; price: string; neighborhoods: string[] }[];
-  reviews:      { name: string; location: string; rating: number; date: string; text: string; avatar: string }[];
+  reviews:      { name: string; location: string; rating: number; date: string; text: string; avatar: string; photo?: string }[];
   team:         { id: string; initials: string; gradient: string; photo?: string }[];
   stats:        { years: string; clients: string; satisfaction: string };
   gallery?:     { image: string; caption: string }[];

@@ -213,6 +213,31 @@ export default function AdminPage() {
   const [saving,  setSaving]  = useState(false);
   const [saved,   setSaved]   = useState(false);
   const [err,     setErr]     = useState("");
+  const [pending, setPending] = useState<PendingReview[]>([]);
+  const [moderating, setModerating] = useState<string | null>(null);
+
+  // ── avaliações enviadas pelo site (aguardando aprovação) ─────────────────────
+  const loadPending = useCallback(async () => {
+    const res = await fetch("/api/reviews/pending", { cache: "no-store" });
+    if (res.ok) setPending(((await res.json()) as { items: PendingReview[] }).items);
+  }, []);
+
+  const moderate = async (id: string, action: "approve" | "reject") => {
+    if (action === "reject" && !confirm("Descartar esta avaliação? Ela não será publicada.")) return;
+    setModerating(id);
+    setErr("");
+    const res = await fetch("/api/reviews/moderate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, action }),
+    });
+    setModerating(null);
+    if (!res.ok) { setErr("Não foi possível concluir. Tente novamente."); return; }
+    // Recarrega o conteúdo para a lista de depoimentos mostrar a avaliação publicada
+    const raw = await (await fetch("/api/site-content", { cache: "no-store" })).json() as Partial<SiteConfig>;
+    setConfig(deepMerge(siteConfig as unknown as SiteConfig, raw));
+    loadPending();
+  };
 
   // ── check auth ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -222,9 +247,10 @@ export default function AdminPage() {
         const raw = await (await fetch("/api/site-content")).json() as Partial<SiteConfig>;
         setConfig(deepMerge(siteConfig as unknown as SiteConfig, raw));
         setAuth("ok");
+        loadPending();
       })
       .catch(() => setAuth("login"));
-  }, []);
+  }, [loadPending]);
 
   // ── login ───────────────────────────────────────────────────────────────────
   const handleLogin = async () => {
@@ -239,6 +265,7 @@ export default function AdminPage() {
     const raw = await (await fetch("/api/site-content")).json() as Partial<SiteConfig>;
     setConfig(deepMerge(siteConfig as unknown as SiteConfig, raw));
     setAuth("ok");
+    loadPending();
   };
 
   // ── logout ──────────────────────────────────────────────────────────────────
@@ -289,7 +316,7 @@ export default function AdminPage() {
               <Lock className="w-7 h-7 text-blue-600" />
             </div>
             <h1 className="text-2xl font-extrabold text-slate-800">Painel Admin</h1>
-            <p className="text-slate-500 text-sm mt-1">MW Cleaning Services</p>
+            <p className="text-slate-500 text-sm mt-1">{siteConfig.business.name}</p>
           </div>
           <div className="mb-4">
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
@@ -329,7 +356,7 @@ export default function AdminPage() {
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
         <div>
           <h1 className="font-extrabold text-slate-800 text-lg">Painel Admin</h1>
-          <p className="text-slate-400 text-xs">MW Cleaning Services</p>
+          <p className="text-slate-400 text-xs">{config.business.name}</p>
         </div>
         <div className="flex items-center gap-3">
           <a href="/" target="_blank" rel="noopener noreferrer"
@@ -355,6 +382,11 @@ export default function AdminPage() {
               }`}>
               <Icon className="w-4 h-4 shrink-0" />
               {label}
+              {id === "reviews" && pending.length > 0 && (
+                <span className="ml-auto min-w-5 h-5 px-1.5 rounded-full bg-amber-500 text-white text-[11px] font-bold flex items-center justify-center">
+                  {pending.length}
+                </span>
+              )}
             </button>
           ))}
         </aside>
@@ -370,6 +402,9 @@ export default function AdminPage() {
                     active === id ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"
                   }`}>
                   <Icon className="w-3.5 h-3.5" />{label}
+                  {id === "reviews" && pending.length > 0 && (
+                    <span className="min-w-4 h-4 px-1 rounded-full bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center">{pending.length}</span>
+                  )}
                 </button>
               ))}
             </div>
@@ -412,8 +447,6 @@ export default function AdminPage() {
                 onChange={(v) => update("social", { ...config.social, instagram: v })} placeholder="https://www.instagram.com/..." />
               <Input label="Facebook (URL completo)" value={config.social.facebook}
                 onChange={(v) => update("social", { ...config.social, facebook: v })} placeholder="https://www.facebook.com/..." />
-              <Input label="Google — link para deixar avaliação" value={config.social.googleReviews ?? ""}
-                onChange={(v) => update("social", { ...config.social, googleReviews: v })} placeholder="https://g.page/r/.../review" />
               <SaveButton onClick={handleSave} saving={saving} saved={saved} />
             </Section>
           )}
@@ -531,6 +564,53 @@ export default function AdminPage() {
           {/* ── REVIEWS ──────────────────────────────────────────────────── */}
           {active === "reviews" && (
             <Section title="Depoimentos de Clientes">
+              <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50/60 p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
+                    <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
+                    Novas avaliações enviadas pelo site
+                  </h3>
+                  <button onClick={loadPending} className="text-xs text-slate-500 hover:text-blue-600 transition">Atualizar</button>
+                </div>
+                {pending.length === 0 ? (
+                  <p className="text-sm text-slate-500">Nenhuma avaliação aguardando aprovação.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {pending.map((r) => (
+                      <div key={r.id} className="bg-white border border-slate-200 rounded-2xl p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="font-semibold text-slate-800 text-sm">{r.name}</p>
+                            <p className="text-xs text-slate-400">
+                              {[r.service, r.location].filter(Boolean).join(" · ") || "—"} · {new Date(r.createdAt).toLocaleDateString("pt-BR")}
+                            </p>
+                          </div>
+                          <span className="text-amber-400 text-sm whitespace-nowrap">{"★".repeat(r.rating)}<span className="text-slate-200">{"★".repeat(5 - r.rating)}</span></span>
+                        </div>
+                        <p className="text-sm text-slate-600 mt-3 whitespace-pre-line">{r.text}</p>
+                        {r.photo && (
+                          <a href={r.photo} target="_blank" rel="noopener noreferrer" className="block mt-3 rounded-xl overflow-hidden h-40 bg-slate-100">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={r.photo} alt="Foto enviada" className="w-full h-full object-cover" />
+                          </a>
+                        )}
+                        <div className="flex gap-2 mt-4">
+                          <button onClick={() => moderate(r.id, "approve")} disabled={moderating === r.id}
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white text-sm font-semibold py-2.5 rounded-xl transition">
+                            <CheckCircle className="w-4 h-4" />{moderating === r.id ? "Publicando…" : "Aprovar e publicar"}
+                          </button>
+                          <button onClick={() => moderate(r.id, "reject")} disabled={moderating === r.id}
+                            className="flex items-center justify-center gap-1.5 border border-slate-200 hover:border-red-300 hover:text-red-600 text-slate-500 text-sm font-medium px-4 py-2.5 rounded-xl transition">
+                            <Trash2 className="w-4 h-4" />Descartar
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <p className="text-xs text-slate-400 mt-3">Ao aprovar, a avaliação aparece no site em até 1 minuto, com o primeiro nome e a inicial do sobrenome.</p>
+              </div>
+              <h3 className="font-bold text-slate-800 text-sm mb-3">Depoimentos publicados</h3>
               <div className="space-y-4 mb-6">
                 {config.reviews.map((r, i) => (
                   <ReviewCard key={i} review={r}
@@ -614,7 +694,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-type ReviewType = { name: string; location: string; rating: number; date: string; text: string; avatar: string };
+type ReviewType = { name: string; location: string; rating: number; date: string; text: string; avatar: string; photo?: string };
+
+type PendingReview = { id: string; name: string; location: string; service: string; rating: number; text: string; photo: string; createdAt: string };
 
 function ReviewCard({ review, onUpdate, onDelete }: {
   review: ReviewType;
@@ -668,6 +750,9 @@ function ReviewCard({ review, onUpdate, onDelete }: {
           </div>
           <Textarea label="Texto do depoimento" value={review.text}
             onChange={(v) => onUpdate({ ...review, text: v })} rows={3} />
+          <Input label="Foto (link) — opcional" value={review.photo ?? ""}
+            onChange={(v) => onUpdate({ ...review, photo: v })} placeholder="https://..." />
+          <ImagePreview url={review.photo ?? ""} />
         </div>
       )}
     </div>
