@@ -37,6 +37,9 @@ export const siteConfig = {
   social: {
     instagram: "https://www.instagram.com/lidias_cleaning_service",
     facebook: "https://www.facebook.com/share/14vmFDbtT6k/",
+    // Link do perfil no Google para deixar avaliação (ex: https://g.page/r/XXXX/review).
+    // Enquanto estiver vazio, o botão "Review us on Google" não aparece.
+    googleReviews: "",
   },
 
   // ---------------------------------------------------------------------------
@@ -58,7 +61,7 @@ export const siteConfig = {
     { image: "/images/services/deep-cleaning-kitchen.webp", imagePosition: "center",       price: "" }, // Deep Cleaning — limpando a bancada
     { image: "/images/services/move-in-move-out.webp",      imagePosition: "25% center",   price: "" }, // Move In / Move Out — profissional chegando com o kit
     { image: "/images/services/post-construction.webp",     imagePosition: "center",       price: "" }, // Post Construction — varrendo entulho de obra
-    { image: "/images/services/commercial-restroom.webp",   imagePosition: "center",       price: "" }, // Commercial / Office — banheiro higienizado
+    { image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&q=80", imagePosition: "center", price: "" }, // Commercial / Office — escritório moderno
     { image: "/images/services/airbnb-bedroom.webp",        imagePosition: "center",       price: "" }, // Airbnb & Vacation Rental — arrumando a cama
     { image: "/images/services/bathroom-detailing.webp",    imagePosition: "65% center",   price: "" }, // Windows & Detailing — espelho/vidro
     { image: "/images/services/organization-living-room.webp", imagePosition: "center",    price: "" }, // Organization — estante e sala organizadas
@@ -149,7 +152,7 @@ export type Review      = (typeof siteConfig.reviews)[number];
 export type SiteConfig = {
   business:     { name: string; logo: string; logoAlt: string; tagline: string };
   contact:      { phone: string; phoneRaw: string; whatsapp: string; email: string; address: string; hours: string; hours2: string };
-  social:       { instagram: string; facebook: string };
+  social:       { instagram: string; facebook: string; googleReviews?: string };
   hero:         { backgroundImage: string; imagePosition?: string };
   services:     { image: string; price: string; imagePosition?: string }[];
   serviceAreas: { name: string; state: string; image: string; price: string; neighborhoods: string[] }[];

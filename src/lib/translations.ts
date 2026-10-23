@@ -66,7 +66,7 @@ export const translations = {
       { number: "02", title: "A Personalized Plan",   description: "We tailor the cleaning and schedule to your space, routine and priorities." },
       { number: "03", title: "Enjoy a Spotless Home", description: "Relax and come home to a fresh, beautifully cared-for space — every single visit." },
     ]},
-    testimonials: { badge: "Client Reviews", title: "Kind words from", titleAccent: "our clients", subtitle: "Real reviews from the homeowners we're proud to serve.", ratingLabel: "Average rating", verified: "Verified client", basedOn: "based on client reviews" },
+    testimonials: { badge: "Client Reviews", title: "Kind words from", titleAccent: "our clients", subtitle: "Real reviews from the homeowners we're proud to serve.", ratingLabel: "Average rating", verified: "Verified client", basedOn: "based on client reviews", googleCta: "Review us on Google", googleNote: "Happy with your cleaning? Share your experience on Google." },
     gallery: { badge: "Our Work", title: "Details that", titleAccent: "speak for themselves", subtitle: "A look at recent homes we've had the pleasure of caring for." },
     owners: {
       badge: "Meet the Founder",

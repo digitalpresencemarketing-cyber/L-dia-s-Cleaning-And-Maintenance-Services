@@ -412,6 +412,8 @@ export default function AdminPage() {
                 onChange={(v) => update("social", { ...config.social, instagram: v })} placeholder="https://www.instagram.com/..." />
               <Input label="Facebook (URL completo)" value={config.social.facebook}
                 onChange={(v) => update("social", { ...config.social, facebook: v })} placeholder="https://www.facebook.com/..." />
+              <Input label="Google — link para deixar avaliação" value={config.social.googleReviews ?? ""}
+                onChange={(v) => update("social", { ...config.social, googleReviews: v })} placeholder="https://g.page/r/.../review" />
               <SaveButton onClick={handleSave} saving={saving} saved={saved} />
             </Section>
           )}
